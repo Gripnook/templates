@@ -8,18 +8,18 @@ OBJS := $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
 all: $(BIN)
-	$(BUILD_DIR)/$(BIN)
 
-$(BIN): $(BUILD_DIR)/$(BIN)
+$(BIN): $(BUILD_DIR) $(BUILD_DIR)/$(BIN)
+
+$(BUILD_DIR):
+	mkdir -p $@
 
 $(BUILD_DIR)/$(BIN): $(OBJS)
-	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 -include $(DEPS)
 
 $(BUILD_DIR)/%.o: %.cpp
-	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
 
 .PHONY: clean
