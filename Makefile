@@ -22,5 +22,6 @@ $(BUILD_DIR)/%.o: %.cpp
 	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
 
+.PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)/$(BIN) $(OBJS) $(DEPS)
