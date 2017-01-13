@@ -4,27 +4,27 @@
 CXX := clang++
 CXXFLAGS := -std=c++14 -stdlib=libc++ -Wall -Wextra -pedantic -g
 
-EXECUTABLE := app
+TARGET := app
 BUILD_DIR := ./build
-SRC := $(wildcard *.cpp)
-OBJ := $(SRC:%.cpp=$(BUILD_DIR)/%.o)
-DEP := $(OBJ:.o=.d)
+SRCS := $(wildcard *.cpp)
+OBJS := $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
+DEPS := $(OBJS:.o=.d)
 
-all: $(EXECUTABLE)
+all: $(TARGET)
 
-$(EXECUTABLE): $(BUILD_DIR) $(BUILD_DIR)/$(EXECUTABLE)
+$(TARGET): $(BUILD_DIR) $(BUILD_DIR)/$(TARGET)
 
 $(BUILD_DIR):
 	mkdir -p $@
 
-$(BUILD_DIR)/$(EXECUTABLE): $(OBJ)
+$(BUILD_DIR)/$(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
--include $(DEP)
+-include $(DEPS)
 
 $(BUILD_DIR)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
 
 .PHONY: clean
 clean:
-	rm -f $(BUILD_DIR)/$(EXECUTABLE) $(OBJ) $(DEP)
+	rm -f $(BUILD_DIR)/$(TARGET) $(OBJS) $(DEPS)
