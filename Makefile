@@ -3,6 +3,7 @@
 
 CXX := clang++
 CXXFLAGS := -std=c++14 -stdlib=libc++ -Wall -Wextra -pedantic -g
+LIBFLAGS := 
 
 TARGET := app
 BUILD_DIR := ./build
@@ -12,19 +13,24 @@ DEPS := $(OBJS:.o=.d)
 
 all: $(TARGET)
 
+.PHONY: run
+run: $(TARGET)
+	$(BUILD_DIR)/$(TARGET)
+
+.PHONY: clean
+clean:
+	rm -f $(BUILD_DIR)/$(TARGET) $(OBJS) $(DEPS)
+
 $(TARGET): $(BUILD_DIR) $(BUILD_DIR)/$(TARGET)
 
 $(BUILD_DIR):
 	mkdir -p $@
 
 $(BUILD_DIR)/$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LIBFLAGS)
 
 -include $(DEPS)
 
 $(BUILD_DIR)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
 
-.PHONY: clean
-clean:
-	rm -f $(BUILD_DIR)/$(TARGET) $(OBJS) $(DEPS)
