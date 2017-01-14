@@ -19,7 +19,7 @@ run: $(TARGET)
 
 .PHONY: clean
 clean:
-	rm -f $(BUILD_DIR)/$(TARGET) $(OBJS) $(DEPS)
+	rm -rf $(BUILD_DIR)
 
 $(TARGET): $(BUILD_DIR) $(BUILD_DIR)/$(TARGET)
 
